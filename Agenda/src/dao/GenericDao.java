@@ -1,35 +1,45 @@
 /*
- * Decompiled with CFR 0_100.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package dao;
 
-import dao.ConnectionDataBase;
+/**
+ *
+ * @author UCS
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public abstract class GenericDao {
-    private Connection connection = ConnectionDataBase.getConnection();
+
+    private Connection connection;
 
     protected GenericDao() {
+        this.connection = ConnectionDataBase.getConnection();
     }
 
     protected Connection getConnection() {
-        return this.connection;
+        return connection;
     }
 
-    protected /* varargs */ void save(String insertSql, Object ... parametros) throws SQLException {
-        PreparedStatement pstmt = this.getConnection().prepareStatement(insertSql);
-        for (int i = 0; i < parametros.length; ++i) {
+    protected void save(String insertSql, Object... parametros) throws SQLException {
+        PreparedStatement pstmt = getConnection().prepareStatement(insertSql);
+
+        for (int i = 0; i < parametros.length; i++) {
             pstmt.setObject(i + 1, parametros[i]);
         }
+
         pstmt.execute();
         pstmt.close();
     }
 
-    protected /* varargs */ void update(String updateSql, Object id, Object ... parametros) throws SQLException {
-        PreparedStatement pstmt = this.getConnection().prepareStatement(updateSql);
-        for (int i = 0; i < parametros.length; ++i) {
+    protected void update(String updateSql, Object id, Object... parametros) throws SQLException {
+        PreparedStatement pstmt = getConnection().prepareStatement(updateSql);
+
+        for (int i = 0; i < parametros.length; i++) {
             pstmt.setObject(i + 1, parametros[i]);
         }
         pstmt.setObject(parametros.length + 1, id);
@@ -37,11 +47,13 @@ public abstract class GenericDao {
         pstmt.close();
     }
 
-    protected /* varargs */ void delete(String deleteSql, Object ... parametros) throws SQLException {
-        PreparedStatement pstmt = this.getConnection().prepareStatement(deleteSql);
-        for (int i = 0; i < parametros.length; ++i) {
+    protected void delete(String deleteSql, Object... parametros) throws SQLException {
+        PreparedStatement pstmt = getConnection().prepareStatement(deleteSql);
+
+        for (int i = 0; i < parametros.length; i++) {
             pstmt.setObject(i + 1, parametros[i]);
         }
+
         pstmt.execute();
         pstmt.close();
     }

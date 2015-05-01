@@ -1,74 +1,161 @@
 /*
- * Decompiled with CFR 0_100.
- * 
- * Could not load the following classes:
- *  com.toedter.calendar.JCalendar
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package view;
 
-import com.toedter.calendar.JCalendar;
+import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.LayoutStyle;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
 
-public class AgendaView
-extends JFrame {
-    private JButton incluirCompromisso;
-    private JCalendar jCalendar1;
+/**
+ *
+ * @author UCS
+ */
+public class AgendaView extends javax.swing.JFrame {
+    
+    private FocusEvent onFocusDayChooser ;
 
+    /**
+     * Creates new form AgendaView
+     */
     public AgendaView() {
-        this.initComponents();
-    }
-
-    private void initComponents() {
-        this.jCalendar1 = new JCalendar();
-        this.incluirCompromisso = new JButton();
-        this.setDefaultCloseOperation(3);
-        this.jCalendar1.setDate(new Date(1428536649000L));
-        this.jCalendar1.setMinSelectableDate(new Date(-62135755131000L));
-        this.incluirCompromisso.setText("Incluir compromisso");
-        GroupLayout layout = new GroupLayout(this.getContentPane());
-        this.getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addGap(328, 328, 328).addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.incluirCompromisso).addComponent((Component)this.jCalendar1, -2, 401, -2)).addContainerGap()));
-        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap(26, 32767).addComponent(this.incluirCompromisso).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent((Component)this.jCalendar1, -2, 332, -2).addContainerGap()));
-        this.pack();
-    }
-
-    public static void main(String[] args) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if (!"Nimbus".equals(info.getName())) continue;
-                UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgendaView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex) {
-            Logger.getLogger(AgendaView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex) {
-            Logger.getLogger(AgendaView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(AgendaView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        EventQueue.invokeLater(new Runnable(){
+        initComponents();
+        
+        jCalendar1.setDecorationBackgroundColor(Color.yellow);
+        //FocusEvent event = new FocusEvent(jCalendar1.getDayChooser(), 1);
+        jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
+        
+        jCalendar1.getDayChooser().getDayPanel().getComponent(15).addMouseListener(new MouseListener() {
 
             @Override
+            public void mouseClicked(MouseEvent e) {
+                jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
+                //new CompromissoView().setVisible(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        //JOptionPane.showMessageDialog(this, jCalendar1.getDayChooser().getDayPanel().getComponent(30).getClass());
+        //jCalendar1.getDayChooser().setForeground(Color.white);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jCalendar1 = new com.toedter.calendar.JCalendar();
+        javax.swing.JButton btnIncluirCompromisso = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jCalendar1.setDate(new java.util.Date(1428536649000L));
+        jCalendar1.setMinSelectableDate(new java.util.Date(-62135755131000L));
+
+        btnIncluirCompromisso.setText("Incluir compromisso");
+        btnIncluirCompromisso.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onClickBtnIncluirCompromisso(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(328, 328, 328)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnIncluirCompromisso)
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(btnIncluirCompromisso)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void onClickBtnIncluirCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnIncluirCompromisso
+        this.setEnabled(false);
+        CompromissoView compromissoView = new CompromissoView();
+        compromissoView.setVisible(true);
+    }//GEN-LAST:event_onClickBtnIncluirCompromisso
+   
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AgendaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AgendaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AgendaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AgendaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AgendaView().setVisible(true);
             }
         });
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JCalendar jCalendar1;
+    // End of variables declaration//GEN-END:variables
 
 }

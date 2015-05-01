@@ -1,31 +1,38 @@
 /*
- * Decompiled with CFR 0_100.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package dao;
 
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author UCS
+ */
 public class ConnectionDataBase {
-    private static final String URL_MYSQL = "jdbc:mysql://localhost/agenda";
-    private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
-    private static final String USER = "root";
-    private static final String PASS = "";
 
-    public static Connection getConnection() {
-        System.out.println("Conectando ao Banco de Dados");
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost/agenda", "root", "");
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
+	private static final String URL_MYSQL = "jdbc:mysql://localhost/agenda";
+
+	private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
+
+	private static final String USER = "root";
+
+	private static final String PASS = "";
+
+	public static Connection getConnection() {
+		System.out.println("Conectando ao Banco de Dados");
+		try {
+			Class.forName(DRIVER_CLASS);
+			return DriverManager.getConnection(URL_MYSQL, USER, PASS);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return null;
+	}
 }
