@@ -15,15 +15,17 @@ import model.Compromisso;
 public class CompromissoDao extends GenericDao {
     
     public void inserir(Compromisso c) throws SQLException {
-        String insert = "INSERT INTO compromisso(descricao, importancia, dataInicio, dataFim) VALUES(?,?,?,?)";
-        save(insert, c.getDescricao(), c.getImportancia(), c.getDataInicio(), c.getDataFim());
+        String insert = "INSERT INTO compromissos "
+                + "(titulo, descricao, importancia, dataInicio, dataFim) "
+                + "VALUES(?, ?, ?, ?, ?)";
+        save(insert, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio().getTime(), c.getDataFim().getTime());
     }
     
     public void alterar(Compromisso c) throws SQLException {
-        String update = "UPDATE compromisso " +
-                        "SET descricao = ?, importancia = ?, dataInicio = ?, dataFim = ?  " +
+        String update = "UPDATE compromissos " +
+                        "SET titulo = ?, descricao = ?, importancia = ?, dataInicio = ?, dataFim = ?, " +
                         "WHERE id = ?";
-        update(update, c.getId(), c.getDescricao(), c.getImportancia(), c.getDataInicio(), c.getDataFim());
+        update(update, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio(), c.getDataFim(), c.getId());
     }
     
 }

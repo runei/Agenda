@@ -5,8 +5,8 @@
  */
 package model;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
@@ -15,14 +15,15 @@ import java.util.ArrayList;
 public class Compromisso {
 
     private Long id;
-    private Date dataInicio;
-    private Date dataFim;
+    private Calendar dataInicio;
+    private Calendar dataFim;
     //private Long idUsuarioAutor;
     private Usuario autor;
     private ArrayList<Usuario> participantes;
     private Tipo tipo;
     private int importancia;
     private String descricao;
+    private String titulo;
 
     /**
      * @return the id
@@ -41,28 +42,28 @@ public class Compromisso {
     /**
      * @return the dataInicio
      */
-    public Date getDataInicio() {
+    public Calendar getDataInicio() {
         return dataInicio;
     }
 
     /**
      * @param dataInicio the dataInicio to set
      */
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(Calendar dataInicio) {
         this.dataInicio = dataInicio;
     }
 
     /**
      * @return the dataFim
      */
-    public Date getDataFim() {
+    public Calendar getDataFim() {
         return dataFim;
     }
 
     /**
      * @param dataFim the dataFim to set
      */
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(Calendar dataFim) {
         this.dataFim = dataFim;
     }
 
@@ -135,6 +136,19 @@ public class Compromisso {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
+
+    /**
+     * @return the titulo
+     */
+    public String getTitulo() {
+        return titulo;
+    }
+
+    /**
+     * @param titulo the titulo to set
+     */
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
     
 }
