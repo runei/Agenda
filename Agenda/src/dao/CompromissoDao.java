@@ -22,8 +22,8 @@ public class CompromissoDao extends GenericDao {
     
     public void inserir(Compromisso c) throws SQLException {
         String insert = "INSERT INTO compromissos " +
-						"(titulo, descricao, importancia, dataInicio, dataFim, idUsuario) " +
-						"VALUES(?, ?, ?, ?, ?, ?)";
+                        "(titulo, descricao, importancia, dataInicio, dataFim, idUsuario) " +
+                        "VALUES(?, ?, ?, ?, ?, ?)";
         save(insert, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio().getTime(), c.getDataFim().getTime(), c.getIdUsuario());
     }
     
@@ -34,25 +34,25 @@ public class CompromissoDao extends GenericDao {
         update(update, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio(), c.getDataFim(), c.getId());
     }
     
-	public ArrayList<Compromisso> obterCompromissosDia(Usuario u, Date dia) throws SQLException {
+    public ArrayList<Compromisso> obterCompromissosDia(Usuario u, Date dia) throws SQLException {
         String select = "SELECT * FROM compromissos WHERE idUsuario = ? AND date(dataInicio) = ?";
         PreparedStatement stmt = getConnection().prepareStatement(select);
         stmt.setLong(1, u.getId());
         stmt.setDate(2, new java.sql.Date(dia.getTime()));
         ResultSet rs = stmt.executeQuery();
-		ArrayList<Compromisso> aCompromissos = new ArrayList<>();
+	ArrayList<Compromisso> aCompromissos = new ArrayList<>();
         while (rs.next()) {
             Compromisso c = new Compromisso();
             c.setId(rs.getLong("id"));
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date(rs.getTimestamp("dataFim").getTime()));
-			c.setDataFim(cal);
-			Calendar cal2 = Calendar.getInstance();
-			cal2.setTime(new Date(rs.getTimestamp("dataInicio").getTime()));
-			c.setDataInicio(cal2);
-			c.setDescricao(rs.getString("descricao"));
-			c.setTitulo(rs.getString("titulo"));
-			aCompromissos.add(c);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date(rs.getTimestamp("dataFim").getTime()));
+            c.setDataFim(cal);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(new Date(rs.getTimestamp("dataInicio").getTime()));
+            c.setDataInicio(cal2);
+            c.setDescricao(rs.getString("descricao"));
+            c.setTitulo(rs.getString("titulo"));
+            aCompromissos.add(c);
         }
         rs.close();
         stmt.close();

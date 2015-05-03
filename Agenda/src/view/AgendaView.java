@@ -8,17 +8,12 @@ package view;
 import controller.ControllerAgenda;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import model.Compromisso;
 import model.Usuario;
 
@@ -26,55 +21,27 @@ import model.Usuario;
  *
  * @author UCS
  */
-public class AgendaView extends javax.swing.JFrame {
+public final class AgendaView extends javax.swing.JFrame {
     
-    private FocusEvent onFocusDayChooser ;
-	private Usuario usuarioLogado = null ;
+    private Usuario usuarioLogado = null ;
 
     /**
      * Creates new form AgendaView
 	 * @param u
      */
     public AgendaView(Usuario u) {
-		usuarioLogado = u;
+	usuarioLogado = u;
         initComponents();
+        jCalendar1.setCalendar(Calendar.getInstance());
         jCalendar1.setDecorationBackgroundColor(Color.yellow);
-        obterCompromissosDia(new Date());
+
+        
+        for (Component component : jCalendar1.getDayChooser().getDayPanel().getComponents()) {
+            component.addMouseListener(new MostraCompromissosDiaEvent());
+        }
 		
-        //FocusEvent event = new FocusEvent(jCalendar1.getDayChooser(), 1);
-        //jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
-		/*
-		jCalendar1.getDayChooser().getDayPanel().getComponent(15).addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
-                //new CompromissoView().setVisible(true);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-		*/
-        //JOptionPane.showMessageDialog(this, jCalendar1.getDayChooser().getDayPanel().getComponent(30).getClass());
-        //jCalendar1.getDayChooser().setForeground(Color.white);
+	obterCompromissosDia(new Date());
+		
     }
 
     /**
@@ -138,21 +105,20 @@ public class AgendaView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onClickBtnIncluirCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnIncluirCompromisso
-        this.setEnabled(false);
         CompromissoView compromissoView = new CompromissoView(usuarioLogado);
         compromissoView.setVisible(true);
     }//GEN-LAST:event_onClickBtnIncluirCompromisso
    
-	public void obterCompromissosDia(Date dia) {
-		ControllerAgenda ca = new ControllerAgenda();
-		ArrayList<Compromisso> arCompromissos = ca.obterCompromissosDia(usuarioLogado, dia);
-		DefaultListModel model = new DefaultListModel();
-		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		for(Compromisso c : arCompromissos) {
-			model.addElement(c.getDescricao() + " / " + sdFormat.format(c.getDataInicio().getTime()) + " - " + sdFormat.format(c.getDataFim().getTime()));
-		}
-		listaCompromissos.setModel(model);
-	}
+    public void obterCompromissosDia(Date dia) {
+        ControllerAgenda ca = new ControllerAgenda();
+        ArrayList<Compromisso> arCompromissos = ca.obterCompromissosDia(usuarioLogado, dia);
+        DefaultListModel model = new DefaultListModel();
+        SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        for(Compromisso c : arCompromissos) {
+                model.addElement(c.getDescricao() + " / " + sdFormat.format(c.getDataInicio().getTime()) + " - " + sdFormat.format(c.getDataFim().getTime()));
+        }
+        listaCompromissos.setModel(model);
+    }
 	
     /**
      * @param args the command line arguments
@@ -187,6 +153,35 @@ public class AgendaView extends javax.swing.JFrame {
                 new AgendaView(null).setVisible(true);
             }
         });
+    }
+    
+    private class MostraCompromissosDiaEvent implements MouseListener {
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            obterCompromissosDia(jCalendar1.getDate());
+        }
+
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseReleased(java.awt.event.MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+            
+        }
+    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

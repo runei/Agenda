@@ -138,6 +138,11 @@ public class CompromissoView extends javax.swing.JFrame {
                 onClickBtnCancelarCompromisso(evt);
             }
         });
+        btnCancelarCompromisso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarCompromissoActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Titulo");
 
@@ -296,8 +301,12 @@ public class CompromissoView extends javax.swing.JFrame {
     }//GEN-LAST:event_onClickBtnConfirmarCompromisso
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        new AgendaView(usuarioLogado).setEnabled(true);
+  
     }//GEN-LAST:event_formWindowClosed
+
+    private void btnCancelarCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarCompromissoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarCompromissoActionPerformed
 
     protected void ShowMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg);
