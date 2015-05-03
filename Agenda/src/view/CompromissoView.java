@@ -18,20 +18,23 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+import model.Usuario;
 
 /**
  *
  * @author UCS
  */
 public class CompromissoView extends javax.swing.JFrame {
-
     
     private Long id;
+	private Usuario usuarioLogado = null;
+	
     /**
      * Creates new form CompromissoView
      * @throws java.text.ParseException
      */
-    public CompromissoView() {
+    public CompromissoView(Usuario u) {
+		usuarioLogado = u;
         initComponents();
         id = 0L;
         txtDataInicio.setDate(new Date());
@@ -282,14 +285,9 @@ public class CompromissoView extends javax.swing.JFrame {
         } else {
             ControllerCompromisso cc = new ControllerCompromisso();
             try {
-                
-                
                 Calendar cInicio = criaCalendar(txtDataInicio, txtHoraInicio);
                 Calendar cFim = criaCalendar(txtDataFim, txtHoraFim);
-                
-                
-                cc.cadastrar(this.getId(), txtTitulo.getText(), txtDescricao.getText(), txtImportancia.getSelectedIndex(), 
-                        cInicio, cFim);
+                cc.cadastrar(this.getId(), txtTitulo.getText(), txtDescricao.getText(), txtImportancia.getSelectedIndex(), cInicio, cFim, usuarioLogado.getId());
             } catch (ParseException | SQLException ex) {
                 Logger.getLogger(CompromissoView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -298,7 +296,7 @@ public class CompromissoView extends javax.swing.JFrame {
     }//GEN-LAST:event_onClickBtnConfirmarCompromisso
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        new AgendaView().setEnabled(true);
+        new AgendaView(usuarioLogado).setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
 
     protected void ShowMessage(String msg) {
@@ -335,7 +333,7 @@ public class CompromissoView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CompromissoView().setVisible(true);
+                new CompromissoView(null).setVisible(true);
             }
         });
     }

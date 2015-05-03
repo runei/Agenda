@@ -15,10 +15,10 @@ import java.util.Calendar;
 public class Compromisso {
 
     private Long id;
+	private Long idUsuario;
     private Calendar dataInicio;
     private Calendar dataFim;
-    //private Long idUsuarioAutor;
-    private Usuario autor;
+    //private Usuario autor;
     private ArrayList<Usuario> participantes;
     private Tipo tipo;
     private int importancia;
@@ -70,17 +70,19 @@ public class Compromisso {
     /**
      * @return the autor
      */
-    public Usuario getAutor() {
+/*
+	public Usuario getAutor() {
         return autor;
     }
-
+*/
     /**
      * @param autor the autor to set
      */
+/*
     public void setAutor(Usuario autor) {
         this.autor = autor;
     }
-
+*/
     /**
      * @return the participantes
      */
@@ -150,5 +152,19 @@ public class Compromisso {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+	/**
+	 * @return the idUsuario
+	 */
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	/**
+	 * @param idUsuario the idUsuario to set
+	 */
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
     
 }

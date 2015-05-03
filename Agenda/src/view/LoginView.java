@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.Usuario;
 
 /**
  *
@@ -112,9 +113,9 @@ public class LoginView extends javax.swing.JFrame {
     private void onClickBtnEntrar(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnEntrar
         ControllerUsuario cu = new ControllerUsuario();
         try {
-            cu.logar(this.txtLogin.getText(), this.txtSenha.getPassword());
+            Usuario u = cu.logar(this.txtLogin.getText(), this.txtSenha.getPassword());
             this.dispose();
-            AgendaView av = new AgendaView();
+            AgendaView av = new AgendaView(u);
             av.setVisible(true);
         }
         catch (NoSuchAlgorithmException | SQLException ex) {

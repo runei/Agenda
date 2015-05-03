@@ -16,7 +16,7 @@ import model.Compromisso;
  */
 public class ControllerCompromisso {
 
-    public void cadastrar(Long id, String titulo, String descricao, int importancia, Calendar dataInicio, Calendar dataFim) 
+    public void cadastrar(Long id, String titulo, String descricao, int importancia, Calendar dataInicio, Calendar dataFim, Long idUsuario) 
             throws SQLException {
         Compromisso c = new Compromisso();
         //c.setAutor(usuario);
@@ -28,6 +28,7 @@ public class ControllerCompromisso {
         c.setDescricao(descricao);
         c.setTitulo(titulo);
         c.setId(id);
+		c.setIdUsuario(idUsuario);
         new CompromissoDao().inserir(c);
     }
 

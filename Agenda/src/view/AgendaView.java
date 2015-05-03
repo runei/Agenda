@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.ControllerAgenda;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ComponentListener;
@@ -12,8 +13,14 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import model.Compromisso;
+import model.Usuario;
 
 /**
  *
@@ -22,18 +29,22 @@ import javax.swing.JOptionPane;
 public class AgendaView extends javax.swing.JFrame {
     
     private FocusEvent onFocusDayChooser ;
+	private Usuario usuarioLogado = null ;
 
     /**
      * Creates new form AgendaView
+	 * @param u
      */
-    public AgendaView() {
+    public AgendaView(Usuario u) {
+		usuarioLogado = u;
         initComponents();
-        
         jCalendar1.setDecorationBackgroundColor(Color.yellow);
+        obterCompromissosDia(new Date());
+		
         //FocusEvent event = new FocusEvent(jCalendar1.getDayChooser(), 1);
-        jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
-        
-        jCalendar1.getDayChooser().getDayPanel().getComponent(15).addMouseListener(new MouseListener() {
+        //jCalendar1.getDayChooser().getDayPanel().getComponent(35).setBackground(Color.red);
+		/*
+		jCalendar1.getDayChooser().getDayPanel().getComponent(15).addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -61,6 +72,7 @@ public class AgendaView extends javax.swing.JFrame {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
+		*/
         //JOptionPane.showMessageDialog(this, jCalendar1.getDayChooser().getDayPanel().getComponent(30).getClass());
         //jCalendar1.getDayChooser().setForeground(Color.white);
     }
@@ -76,6 +88,8 @@ public class AgendaView extends javax.swing.JFrame {
 
         jCalendar1 = new com.toedter.calendar.JCalendar();
         javax.swing.JButton btnIncluirCompromisso = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listaCompromissos = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,25 +103,35 @@ public class AgendaView extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(listaCompromissos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(328, 328, 328)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnIncluirCompromisso)
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnIncluirCompromisso)
+                        .addGap(0, 276, Short.MAX_VALUE))
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addComponent(btnIncluirCompromisso)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(66, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
 
         pack();
@@ -115,10 +139,21 @@ public class AgendaView extends javax.swing.JFrame {
 
     private void onClickBtnIncluirCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnIncluirCompromisso
         this.setEnabled(false);
-        CompromissoView compromissoView = new CompromissoView();
+        CompromissoView compromissoView = new CompromissoView(usuarioLogado);
         compromissoView.setVisible(true);
     }//GEN-LAST:event_onClickBtnIncluirCompromisso
    
+	public void obterCompromissosDia(Date dia) {
+		ControllerAgenda ca = new ControllerAgenda();
+		ArrayList<Compromisso> arCompromissos = ca.obterCompromissosDia(usuarioLogado, dia);
+		DefaultListModel model = new DefaultListModel();
+		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		for(Compromisso c : arCompromissos) {
+			model.addElement(c.getDescricao() + " / " + sdFormat.format(c.getDataInicio().getTime()) + " - " + sdFormat.format(c.getDataFim().getTime()));
+		}
+		listaCompromissos.setModel(model);
+	}
+	
     /**
      * @param args the command line arguments
      */
@@ -149,13 +184,15 @@ public class AgendaView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgendaView().setVisible(true);
+                new AgendaView(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JCalendar jCalendar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList listaCompromissos;
     // End of variables declaration//GEN-END:variables
 
 }
