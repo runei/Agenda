@@ -29,9 +29,9 @@ public class CompromissoDao extends GenericDao {
     
     public void alterar(Compromisso c) throws SQLException {
         String update = "UPDATE compromissos " +
-                        "SET titulo = ?, descricao = ?, importancia = ?, dataInicio = ?, dataFim = ?, " +
+                        "SET titulo = ?, descricao = ?, importancia = ?, dataInicio = ?, dataFim = ? " +
                         "WHERE id = ?";
-        update(update, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio(), c.getDataFim(), c.getId());
+        update(update, c.getId(), c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio().getTime(), c.getDataFim().getTime());
     }
     
     public ArrayList<Compromisso> obterCompromissosDia(Usuario u, Date dia) throws SQLException {
@@ -40,7 +40,7 @@ public class CompromissoDao extends GenericDao {
         stmt.setLong(1, u.getId());
         stmt.setDate(2, new java.sql.Date(dia.getTime()));
         ResultSet rs = stmt.executeQuery();
-	ArrayList<Compromisso> aCompromissos = new ArrayList<>();
+		ArrayList<Compromisso> aCompromissos = new ArrayList<>();
         while (rs.next()) {
             Compromisso c = new Compromisso();
             c.setId(rs.getLong("id"));
@@ -58,6 +58,12 @@ public class CompromissoDao extends GenericDao {
         stmt.close();
         return aCompromissos;
     }    
+
+	public void excluirCompromisso(Compromisso c) throws SQLException {
+        String delete = "DELETE FROM compromissos " +
+                        "WHERE id = ? ";
+        delete(delete, c.getId());
+	}
 
 	
 }

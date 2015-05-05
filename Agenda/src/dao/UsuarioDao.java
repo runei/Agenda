@@ -24,7 +24,7 @@ public class UsuarioDao extends GenericDao {
     	statement.setString(1, usuario.getLogin());
     	ResultSet resultSet = statement.executeQuery();
     	if (resultSet.next()) {
-    		throw new AgendaException("Usuário já cadastrado!");
+    		throw new AgendaException("Usuario ja cadastrado!");
     	}
         String insert = "INSERT INTO usuarios(nome, login, senha) VALUES(?,?,?)";
         save(insert, usuario.getNome(), usuario.getLogin(), usuario.getSenha());

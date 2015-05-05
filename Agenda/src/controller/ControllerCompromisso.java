@@ -29,7 +29,11 @@ public class ControllerCompromisso {
         c.setTitulo(titulo);
         c.setId(id);
 		c.setIdUsuario(idUsuario);
-        new CompromissoDao().inserir(c);
+		if(id > 0) {
+			new CompromissoDao().alterar(c);
+		} else {
+	        new CompromissoDao().inserir(c);
+		}
     }
 
 }

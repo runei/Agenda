@@ -27,5 +27,14 @@ public class ControllerAgenda {
         }
         return aCompromissos;
     }
+
+	public void excluirCompromisso(Compromisso c) {
+		CompromissoDao cdao = new CompromissoDao();
+		try {
+			cdao.excluirCompromisso(c);
+		} catch (Exception e) {
+			
+		}
+	}
 	
 }

@@ -18,6 +18,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+import model.Compromisso;
 import model.Usuario;
 
 /**
@@ -383,4 +384,17 @@ public class CompromissoView extends javax.swing.JFrame {
     public void setId(Long id) {
         this.id = id;
     }
+
+	void setCampos(Compromisso c) {
+		setId(c.getId());
+		txtTitulo.setText(c.getTitulo());
+		txtDescricao.setText(c.getDescricao());
+		txtDataFim.setCalendar(c.getDataFim());
+		txtDataInicio.setCalendar(c.getDataInicio());
+		txtImportancia.setSelectedItem(c.getImportancia());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		txtHoraFim.setText(dateFormat.format(c.getDataFim().getTime()));
+		txtHoraInicio.setText(dateFormat.format(c.getDataInicio().getTime()));
+	}
 }
+	

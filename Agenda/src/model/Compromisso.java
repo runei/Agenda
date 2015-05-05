@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -167,4 +168,10 @@ public class Compromisso {
 		this.idUsuario = idUsuario;
 	}
     
+	@Override
+	public String toString() {
+		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return this.getDescricao() + " " + sdFormat.format(this.getDataInicio().getTime()) + " - " + sdFormat.format(this.getDataFim().getTime());
+	}
+	
 }
