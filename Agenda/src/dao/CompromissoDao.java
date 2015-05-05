@@ -20,11 +20,21 @@ import model.Usuario;
  */
 public class CompromissoDao extends GenericDao {
     
-    public void inserir(Compromisso c) throws SQLException {
+    public Long inserir(Compromisso c) throws SQLException {
         String insert = "INSERT INTO compromissos " +
                         "(titulo, descricao, importancia, dataInicio, dataFim, idUsuario) " +
                         "VALUES(?, ?, ?, ?, ?, ?)";
         save(insert, c.getTitulo(), c.getDescricao(), c.getImportancia(), c.getDataInicio().getTime(), c.getDataFim().getTime(), c.getIdUsuario());
+        String select = "SELECT max(id) max FROM compromissos";
+        PreparedStatement stmt = getConnection().prepareStatement(select);
+        ResultSet rs = stmt.executeQuery();
+        Long res = 1l;
+        if (rs.next()) {
+            res = rs.getLong("max");
+        }
+        rs.close();
+        stmt.close();
+        return res;
     }
     
     public void alterar(Compromisso c) throws SQLException {
@@ -40,7 +50,7 @@ public class CompromissoDao extends GenericDao {
         stmt.setLong(1, u.getId());
         stmt.setDate(2, new java.sql.Date(dia.getTime()));
         ResultSet rs = stmt.executeQuery();
-		ArrayList<Compromisso> aCompromissos = new ArrayList<>();
+	ArrayList<Compromisso> aCompromissos = new ArrayList<>();
         while (rs.next()) {
             Compromisso c = new Compromisso();
             c.setId(rs.getLong("id"));
@@ -59,11 +69,11 @@ public class CompromissoDao extends GenericDao {
         return aCompromissos;
     }    
 
-	public void excluirCompromisso(Compromisso c) throws SQLException {
+    public void excluirCompromisso(Compromisso c) throws SQLException {
         String delete = "DELETE FROM compromissos " +
                         "WHERE id = ? ";
         delete(delete, c.getId());
-	}
+    }
 
 	
 }

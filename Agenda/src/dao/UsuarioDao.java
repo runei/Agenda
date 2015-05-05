@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import exception.AgendaException;
+import java.util.ArrayList;
 import model.Usuario;
 
 /**
@@ -60,5 +61,22 @@ public class UsuarioDao extends GenericDao {
         stmt.close();
         return usuarioLogado;
     }    
+    
+    public ArrayList<Usuario> listar() throws SQLException {
+        String select = "SELECT id, nome FROM usuarios";
+        PreparedStatement stmt = getConnection().prepareStatement(select);
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        ResultSet rs = stmt.executeQuery();
+        Usuario usuario = null;
+        while (rs.next()) {
+            usuario = new Usuario();
+            usuario.setId(rs.getLong("id"));
+            usuario.setNome(rs.getString("nome"));
+            usuarios.add(usuario);
+        }
+        rs.close();
+        stmt.close();
+        return usuarios;
+    }
     
 }

@@ -7,9 +7,12 @@ package view;
 
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerCompromisso;
+import controller.ControllerUsu_Compromisso;
+import controller.ControllerUsuario;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -17,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import model.Compromisso;
 import model.Usuario;
@@ -40,6 +44,7 @@ public class CompromissoView extends javax.swing.JFrame {
         id = 0L;
         txtDataInicio.setDate(new Date());
         txtDataFim.setDate(new Date());
+        addUsuarios();
     }
 
     /**
@@ -57,7 +62,6 @@ public class CompromissoView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
@@ -89,15 +93,22 @@ public class CompromissoView extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+
             },
             new String [] {
-                "Usuário", "Login", ""
+                "Incluir", "Codigo", "Nome"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Long.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -108,8 +119,6 @@ public class CompromissoView extends javax.swing.JFrame {
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
         }
-
-        jButton1.setText("Adicionar participante");
 
         jScrollPane2.setViewportView(txtDescricao);
 
@@ -162,12 +171,9 @@ public class CompromissoView extends javax.swing.JFrame {
                         .addComponent(txtImportancia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnConfirmarCompromisso)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCancelarCompromisso))))
+                        .addComponent(btnConfirmarCompromisso)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelarCompromisso))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -175,21 +181,23 @@ public class CompromissoView extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(5, 5, 5)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                            .addComponent(txtDataInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(txtDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(txtHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -197,12 +205,12 @@ public class CompromissoView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDataInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtHoraInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,15 +220,13 @@ public class CompromissoView extends javax.swing.JFrame {
                             .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addComponent(txtHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(4, 4, 4)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -293,7 +299,15 @@ public class CompromissoView extends javax.swing.JFrame {
             try {
                 Calendar cInicio = criaCalendar(txtDataInicio, txtHoraInicio);
                 Calendar cFim = criaCalendar(txtDataFim, txtHoraFim);
-                cc.cadastrar(this.getId(), txtTitulo.getText(), txtDescricao.getText(), txtImportancia.getSelectedIndex(), cInicio, cFim, usuarioLogado.getId());
+                Long idtmp = cc.cadastrar(this.getId(), txtTitulo.getText(), txtDescricao.getText(), txtImportancia.getSelectedIndex(), cInicio, cFim, usuarioLogado.getId());
+                this.setId(idtmp);
+                ControllerUsu_Compromisso cuc = new ControllerUsu_Compromisso();
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    if ((boolean) jTable1.getModel().getValueAt(i, 0)) {
+                        Long l = (Long) jTable1.getModel().getValueAt(i, 1);
+                        cuc.cadastrar(l, this.getId());
+                    }
+                }
             } catch (ParseException | SQLException ex) {
                 Logger.getLogger(CompromissoView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -351,7 +365,6 @@ public class CompromissoView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarCompromisso;
     private javax.swing.JButton btnConfirmarCompromisso;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -385,16 +398,29 @@ public class CompromissoView extends javax.swing.JFrame {
         this.id = id;
     }
 
-	void setCampos(Compromisso c) {
-		setId(c.getId());
-		txtTitulo.setText(c.getTitulo());
-		txtDescricao.setText(c.getDescricao());
-		txtDataFim.setCalendar(c.getDataFim());
-		txtDataInicio.setCalendar(c.getDataInicio());
-		txtImportancia.setSelectedItem(c.getImportancia());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-		txtHoraFim.setText(dateFormat.format(c.getDataFim().getTime()));
-		txtHoraInicio.setText(dateFormat.format(c.getDataInicio().getTime()));
-	}
+    void setCampos(Compromisso c) {
+        setId(c.getId());
+        txtTitulo.setText(c.getTitulo());
+        txtDescricao.setText(c.getDescricao());
+        txtDataFim.setCalendar(c.getDataFim());
+        txtDataInicio.setCalendar(c.getDataInicio());
+        txtImportancia.setSelectedItem(c.getImportancia());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        txtHoraFim.setText(dateFormat.format(c.getDataFim().getTime()));
+        txtHoraInicio.setText(dateFormat.format(c.getDataInicio().getTime()));
+    }
+
+    private void addUsuarios() {
+        try {
+            ControllerUsuario controllerUsuario = new ControllerUsuario();
+            ArrayList<Usuario> usuarios = controllerUsuario.listar();
+            DefaultTableModel defaultTableModel = (DefaultTableModel) jTable1.getModel();
+            for (Usuario u : usuarios) {
+                defaultTableModel.addRow(new Object[]{false, u.getId(), u.getNome()});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CompromissoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 	

@@ -12,6 +12,7 @@ import agenda.Funcoes;
 import model.Usuario;
 import dao.UsuarioDao;
 import exception.AgendaException;
+import java.util.ArrayList;
 
 /**
  *
@@ -38,6 +39,11 @@ public class ControllerUsuario {
         usuario.setLogin(login);
         usuario.setSenha(Funcoes.Criptar(new String(senha)));
         new UsuarioDao().inserir(usuario);
+    }
+    
+    public ArrayList<Usuario> listar() throws SQLException {
+        UsuarioDao dao = new UsuarioDao();
+        return dao.listar();
     }
 
 }

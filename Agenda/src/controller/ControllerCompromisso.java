@@ -16,10 +16,9 @@ import model.Compromisso;
  */
 public class ControllerCompromisso {
 
-    public void cadastrar(Long id, String titulo, String descricao, int importancia, Calendar dataInicio, Calendar dataFim, Long idUsuario) 
-            throws SQLException {
+    public Long cadastrar(Long id, String titulo, String descricao, int importancia, Calendar dataInicio, Calendar dataFim, 
+            Long idUsuario) throws SQLException {
         Compromisso c = new Compromisso();
-        //c.setAutor(usuario);
         c.setDataFim(dataFim);
         c.setDataInicio(dataInicio);
         c.setImportancia(importancia);
@@ -28,12 +27,13 @@ public class ControllerCompromisso {
         c.setDescricao(descricao);
         c.setTitulo(titulo);
         c.setId(id);
-		c.setIdUsuario(idUsuario);
-		if(id > 0) {
-			new CompromissoDao().alterar(c);
-		} else {
-	        new CompromissoDao().inserir(c);
-		}
+        c.setIdUsuario(idUsuario);
+        if(id > 0) {
+            new CompromissoDao().alterar(c);
+            return id;
+        } else {
+            return new CompromissoDao().inserir(c);
+        }
     }
 
 }
