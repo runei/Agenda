@@ -9,12 +9,10 @@ import controller.ControllerAgenda;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import model.Compromisso;
 import model.Usuario;
 
@@ -130,30 +128,30 @@ public final class AgendaView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onClickBtnIncluirCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnIncluirCompromisso
-        CompromissoView compromissoView = new CompromissoView(usuarioLogado);
+        CompromissoView compromissoView = new CompromissoView(usuarioLogado, 0l);
         compromissoView.setVisible(true);
     }//GEN-LAST:event_onClickBtnIncluirCompromisso
 
     private void onClickBtnEditarCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnEditarCompromisso
-		try {
-			Compromisso c = (Compromisso) listaCompromissos.getSelectedValue();
-			CompromissoView compromissoView = new CompromissoView(usuarioLogado);
-			compromissoView.setVisible(true);
-			compromissoView.setCampos(c);
-		} catch (Exception e) {
-			
-		}
+        try {
+            Compromisso c = (Compromisso) listaCompromissos.getSelectedValue();
+            CompromissoView compromissoView = new CompromissoView(usuarioLogado, c.getId());
+            compromissoView.setVisible(true);
+            compromissoView.setCampos(c);
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_onClickBtnEditarCompromisso
 
     private void onClickBtnExcluirCompromisso(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClickBtnExcluirCompromisso
-		try {
-			Compromisso c = (Compromisso) listaCompromissos.getSelectedValue();
-			ControllerAgenda ca = new ControllerAgenda();
-			ca.excluirCompromisso(c);
-			obterCompromissosDia(c.getDataInicio().getTime());
-		} catch (Exception e) {
-			
-		}
+        try {
+            Compromisso c = (Compromisso) listaCompromissos.getSelectedValue();
+            ControllerAgenda ca = new ControllerAgenda();
+            ca.excluirCompromisso(c);
+            obterCompromissosDia(c.getDataInicio().getTime());
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_onClickBtnExcluirCompromisso
    
     public void obterCompromissosDia(Date dia) {

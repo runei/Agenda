@@ -23,4 +23,19 @@ public class ControllerUsu_Compromisso {
         compromissoDao.inserir(uc);
     }
     
+    public boolean usuarioEmCompromisso(Long idUsuario, Long idCompromisso) throws SQLException {
+        Usu_Compromisso uc = new Usu_Compromisso();
+        uc.setIdCompromisso(idCompromisso);
+        uc.setIdUsuario(idUsuario);
+        Usu_CompromissoDao compromissoDao = new Usu_CompromissoDao();
+        return compromissoDao.usuarioEmCompromisso(uc);
+    }
+    
+    public void deletar(Long idCompromisso) throws SQLException {
+        Usu_Compromisso uc = new Usu_Compromisso();
+        uc.setIdCompromisso(idCompromisso);
+        Usu_CompromissoDao compromissoDao = new Usu_CompromissoDao();
+        compromissoDao.deletar(uc);
+    }
+    
 }
